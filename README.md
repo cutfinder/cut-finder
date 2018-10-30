@@ -19,6 +19,6 @@
   
  - once you have all the files rune the following commands in order to build the project 
  
-    >npm build
+    >npm install
 
  - then run `expo start` to in order to start the project
