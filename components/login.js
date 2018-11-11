@@ -1,26 +1,43 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+const loginservices = require('../processes/login-services');
+//import loginservices from '../processes/login-services';
 
-export default class login extends Component {
+class login extends Component {
   constructor(props) {
     super(props);
     this.state = {username : '', password : ''}
   }
 
   login() {
-
+    var pass = loginservices.data.login(this.state.username, this.state.password);
+    const { navigate } = this.props.navigation;
+    if (pass) {
+      navigate('HomeScreen', {})
+    }
+    else {
+      Alert.alert(
+        'Credentials Not Valid',
+        'Please enter valid credentials',
+        [
+          {text : 'Ok'}
+        ],
+        { cancelable : false }
+      )
+    }
   }
 
   render() {
     return (
-      <View style = {{padding : 10}}>
+      <View style = {styles.container}>
         <TextInput style = {styles.inputContainer}
                     placeholder = "Username"
                     onChangeText = {(username) => this.setState({username})}/>
         <TextInput style = {styles.inputContainer}
                     placeholder = "Password"
+                    secureTextEntry = {true}
                     onChangeText = {(password) => this.setState({password})}/>
-        <TouchableOpacity onPress = {login}
+        <TouchableOpacity onPress = {this.login.bind(this)}
                 style = {styles.buttonContainer}>
             <Text>Login</Text>
         </TouchableOpacity>
@@ -45,4 +62,12 @@ const styles = StyleSheet.create({
     padding : 10,
     width : 100
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
+
+export default login;
