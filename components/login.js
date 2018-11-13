@@ -13,7 +13,9 @@ class login extends Component {
     var pass = loginservices.data.login(this.state.username, this.state.password);
     const { navigate } = this.props.navigation;
     if (pass) {
-      navigate('HomeScreen', {})
+      this.props.navigation.navigate('Home', {
+          name : 'Fabio Francois',
+        });
     }
     else {
       Alert.alert(
